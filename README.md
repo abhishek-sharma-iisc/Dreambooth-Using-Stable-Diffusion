@@ -1,11 +1,6 @@
 
-# Extended Dreambooth How-To Guides by Yushan
-[For Running On Vast.ai](https://medium.com/@yushantripleseven/dreambooth-training-joepenna-on-vast-ai-5f1018239820)<br>
-[For Running On Google Colab](https://medium.com/@yushantripleseven/dreambooth-training-joepenna-on-google-colab-63ec6e6cf050)<br>
-[For Running On a Local PC (Windows)](https://medium.com/@yushantripleseven/dreambooth-training-joepenna-on-a-local-pc-windows-f00a4fd11dfd)<br>
-[For Running On a Local PC (Ubuntu)](https://medium.com/@yushantripleseven/dreambooth-training-joepenna-on-a-local-pc-ubuntu-a2bf796430d2)<br>
-[Adapting Corridor Digital's Dreambooth Tutorial To JoePenna's Repo](https://medium.com/@yushantripleseven/adapting-corridor-digitals-dreambooth-tutorial-to-joepenna-s-repo-d82bfbe0bfd2)<br>
-[Using Captions in JoePenna's Dreambooth](https://medium.com/@yushantripleseven/using-captions-with-dreambooth-joepenna-dreambooth-716f5b9e9866)<br>
+# Dreambooth using Stable Diffusion
+
 
 # Index
 
@@ -26,32 +21,26 @@
   - [They look like you, but not when you try different styles](#they-look-like-you-but-not-when-you-try-different-styles)
 - [Hugging Face Diffusers](#hugging-face-diffusers)
 
-# The Repo Formerly Known As "Dreambooth"
-![image](https://user-images.githubusercontent.com/100188076/192390551-cb89364f-af57-4aed-8f3d-f9eb9b61cf95.png)
+### **INTRODUCTION**
+This repository presents an adaptation of Google's Dreambooth, utilizing Stable Diffusion. The original Dreambooth was built upon the Imagen text-to-image model. However, neither the model nor its pre-trained weights are accessible. To facilitate fine-tuning of a text-to-image model with limited examples, I've incorporated the concept of Dreambooth into Stable Diffusion.
 
-## <a name="notes-by-joe-penna"></a>  Notes by Joe Penna
-### **INTRODUCTIONS!**
-Hi! My name is Joe Penna.
+The foundation of this code repository is based on Textual Inversion. It's important to note that Textual Inversion solely optimizes word embedding, whereas Dreambooth fine-tunes the entire diffusion model.
 
-You might have seen a few YouTube videos of mine under *MysteryGuitarMan*. I'm now a feature film director. You might have seen [ARCTIC](https://www.youtube.com/watch?v=N5aD9ppoQIo&t=6s) or [STOWAWAY](https://www.youtube.com/watch?v=A_apvQkWsVY).
+### **Implementation Details**
+As already mentioned that we are using the most architecture part of [Textual Inversion]() repository since Google has not made dreambooth code public. Note that Textual inversion paper only discusses about training the embedding vector and not the U-Net architecture which is used for generation. But since dreambooth implementation requires fine tuning the U-Net architecture hence I will be modifying the codebase at this [line](), which disable gradient checkpointing in a hard-code way. This is because in textual inversion, the Unet is not optimized. However, in Dreambooth we optimize the Unet, so we can turn on the gradient checkpoint pointing trick, as in the original [Stable Diffusion]() repo here. The gradient checkpoint is default to be True in config. I have updated the codes.
 
-For my movies, I need to be able to train specific actors, props, locations, etc. So, I did a bunch of changes to @XavierXiao's repo in order to train people's faces.
+First set-up the ldm enviroment following the instruction from textual inversion repo, or the original Stable Diffusion repo.
 
-I can't release all the tests for the movie I'm working on, but when I test with my own face, I release those on my Twitter page - [@MysteryGuitarM](https://twitter.com/MysteryGuitarM).
+To fine-tune a stable diffusion model, we need to obtain the pre-trained stable diffusion models following their instructions. Weights can be downloaded from HuggingFace. You can decide which version of checkpoint to use, but I use 'sd_v1-5_vae.ckpt' present in [hugging_face](https://huggingface.co/panopstor/EveryDream/tree/main).
 
-Lots of these tests were done with a buddy of mine -- Niko from CorridorDigital. It might be how you found this repo!
+We also need to create a set of images for regularization, as the fine-tuning algorithm of Dreambooth requires that. Details of the algorithm can be found in the paper. Note that in the original paper, the regularization images seem to be generated on-the-fly. However, here I generated a set of regularization images before the training. The text prompt for generating regularization images can be 'photo of a <class>', where '<class>' is a word that describes the class of your object, such as 'dog'. The command is
 
-I'm not really a coder. I'm just stubborn, and I'm not afraid of googling. So, eventually, some really smart folks joined in and have been contributing. In this repo, specifically: [@djbielejeski](https://github.com/djbielejeski) @gammagec @MrSaad –– but so many others in our Discord!
+```
+python scripts/stable_txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 1 --scale 10.0 --ddim_steps 50  --ckpt /path/to/original/stable-diffusion/sd-v1-4-full-ema.ckpt --prompt "a photo of a <class>" 
+```
 
-This is no longer my repo. This is the people-who-wanna-see-Dreambooth-on-SD-working-well's repo!
-
-Now, if you wanna try to do this... please read the warnings below first:
-
-### **WARNING!**
-
-- Let's respect the hard work and creativity of people who have spent years honing their skills.
-  - This iteration of Dreambooth was specifically designed for digital artists to train their own characters and styles into a Stable Diffusion model, as well as for people to train their own likenesses. My main goal is to make a tool for filmmakers to interact with concept artists that they've hired -- to generate the seed of an initial idea, so that they can then communicate visually. Meant to be used by filmmakers, concept artists, comic book designers, etc.
-  - One day, there'll be a Stable Diffussion trained on perfect datasets. In the meantime, for moral / ethical / potentially legal reasons, I strongly discourage training someone else's art into these model (unless you've obtained explicit permission, or they've made a public statement about this technology). For similar reasons, I recommend against using artists' names in your prompts. Don't put the people who made this possible out of the job!
+I generated 1500 images for regularization. After generating regularization images, save them in '/root/to/regularization_images' folder.
+If the generated regularization images are highly unrealistic ("man" or "woman"), you can find a diverse set of images (of man/woman) online, and use them as regularization images. This can give a better result.
 
 - Onto the technical side:
   - You can now run this on a GPU with **24GB of VRAM** (e.g. 3090). Training will be slower, and you'll need to be sure this is the *only* program running.
