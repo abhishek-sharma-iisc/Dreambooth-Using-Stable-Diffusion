@@ -4,29 +4,25 @@
 
 # Index
 
-- [Notes by Joe Penna](#notes-by-joe-penna)
-- [Setup](#setup)
-  - [Easy RunPod Instructions](#easy-runpod-instructions)
-  - [Vast.AI Setup](#vast-ai-setup)
-  - [Run Locally](#running-locally)
-    - [venv](#running-locally-venv)
-    - [Conda](#running-locally-conda)
-  - [Configuration File and Command Line Reference](#config-file-and-command-line-reference)
-- [Captions & Multiple Subject/Concept Support](#captions-and-multi-concept)
+- [Introduction](#introduction)
+- [Implementation Details](#implementation)
+  - [Preparation](#preparation)
+  - [Training](#training)
+  - [Conda Setup](#running-locally-conda)
+    
+- [Configuration File and Command Line Reference](#config-file-and-command-line-reference)
+  - [For Training using Custom configuration](#custom-config) 
+- [Results using this Generation Model](#results)
+  - [Ground Truth Images]
+  - [Model Generated Images] 
 - [Textual Inversion vs. Dreambooth](#text-vs-dreamb)
-- [Using the Generated Model](#using-the-generated-model)
-- [Debugging Your Results](#debugging-your-results)
-  - [They don't look like you at all!](#they-dont-look-like-you)
-  - [They sorta look like you, but exactly like your training images](#they-sorta-look-like-you-but-exactly-like-your-training-images)
-  - [They look like you, but not when you try different styles](#they-look-like-you-but-not-when-you-try-different-styles)
-- [Hugging Face Diffusers](#hugging-face-diffusers)
 
 ## <a name="introduction"></a> Introduction
 This repository presents an adaptation of Google's Dreambooth, utilizing Stable Diffusion. The original Dreambooth was built upon the Imagen text-to-image model. However, neither the model nor its pre-trained weights are accessible. To facilitate fine-tuning of a text-to-image model with limited examples, I've incorporated the concept of Dreambooth into Stable Diffusion.
 
 The foundation of this code repository is based on Textual Inversion. It's important to note that Textual Inversion solely optimizes word embedding, whereas Dreambooth fine-tunes the entire diffusion model.
 
-## **Implementation Details**
+## <a name="implementation"></a>Implementation Details
 As already mentioned that we are using the most architecture part of [Textual Inversion]() repository since Google has not made dreambooth code public. Note that Textual inversion paper only discusses about training the embedding vector and not the U-Net architecture which is used for generation. But since dreambooth implementation requires fine tuning the U-Net architecture hence I will be modifying the codebase at this [line](), which disable gradient checkpointing in a hard-code way. This is because in textual inversion, the Unet is not optimized. However, in Dreambooth we optimize the Unet, so we can turn on the gradient checkpoint pointing trick, as in the original [Stable Diffusion]() repo here. The gradient checkpoint is default to be True in config. I have updated the codes.
 
 - Onto the technical side:
@@ -54,7 +50,7 @@ python scripts/stable_txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 1 --scale
 I generated 1500 images for regularization. After generating regularization images, save them in `/root/to/regularization_images` folder.
 If the generated regularization images are highly unrealistic ("man" or "woman"), you can find a diverse set of images (of man/woman) online, and use them as regularization images. This can give a better result.
 
-### <a name="training></a>Training 
+### <a name="training"></a>Training 
 
 I have trained it in a conda environment using python 3.10 on my server. One can implement in any virtual environment system. One can use any particular subject to train this model. In my case, I have used my own images for training purpose. To train using my images, I have taken 22 images of mine in which my face has frontal pose in most images. Some images also contain side poses for diversity and novel viewpoint training.
 
@@ -142,7 +138,7 @@ cmd> conda deactivate
 }
 ```
 
-## For Training using Custom configuration
+## <a name="custom-config"></a>For Training using Custom configuration
 
 ## Command Line Parameters
 
