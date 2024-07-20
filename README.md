@@ -172,29 +172,29 @@ As already mentioned above, I have used my own images for personalized training 
 
 ## Ground Truth Images
 The `ground truth` (real pictures used for training)
-<br><img src="https://github.com/user-attachments/assets/5951095d-9265-40ea-bd57-2a5d653251e4" width="200">
-<img src="https://github.com/user-attachments/assets/c3a06220-cf28-4a29-a65a-1526a19bcff8" width="200">
-<img src="https://github.com/user-attachments/assets/79b51f73-eb97-40c1-ae8a-683a4d10afaf6" width="200">
-<img src="https://github.com/user-attachments/assets/1ad63a09-c41a-4136-8531-01460866880b" width="200">
+<br><img src="https://github.com/user-attachments/assets/5951095d-9265-40ea-bd57-2a5d653251e4" width="180">
+<img src="https://github.com/user-attachments/assets/c3a06220-cf28-4a29-a65a-1526a19bcff8" width="180">
+<img src="https://github.com/user-attachments/assets/79b51f73-eb97-40c1-ae8a-683a4d10afaf6" width="180">
+<img src="https://github.com/user-attachments/assets/1ad63a09-c41a-4136-8531-01460866880b" width="180">
 
 
 ## Model Generated Image
 
 | Prompt: `abhishek person as a masterpiece portrait painting by John Singer Sargent in the style of Rembrandt` |
 |---------|
-| <img src="https://github.com/user-attachments/assets/74377c6a-f0ed-45b2-8bc7-0078cbfad749" width="200"> <img src="https://github.com/user-attachments/assets/fc2e3739-c1e5-4161-889c-e190cebea162" width="200"> <img src="https://github.com/user-attachments/assets/9d240c1c-fd87-49b6-8ce7-2f7f85ab9041" width="200"> <img src="https://github.com/user-attachments/assets/ac3c95cb-ec2b-49eb-b82e-85bc79727ff3" width="200"> |   
+| <img src="https://github.com/user-attachments/assets/74377c6a-f0ed-45b2-8bc7-0078cbfad749" width="180"> <img src="https://github.com/user-attachments/assets/fc2e3739-c1e5-4161-889c-e190cebea162" width="180"> <img src="https://github.com/user-attachments/assets/9d240c1c-fd87-49b6-8ce7-2f7f85ab9041" width="180"> <img src="https://github.com/user-attachments/assets/ac3c95cb-ec2b-49eb-b82e-85bc79727ff3" width="180"> |   
 
 | Prompt: `abhishek person with a tree and autumn leaves in the background` |
 |---------|
-| <img src="https://github.com/user-attachments/assets/f85416b8-309b-494a-b86f-ae04b5bdb5ce" width="200"> <img src="https://github.com/user-attachments/assets/532873c4-0d60-4b66-bcd9-7d8d6117ba70" width="200"> <img src="https://github.com/user-attachments/assets/1c790751-3c8d-4ee9-980b-5f2ad6b83793" width="200"> <img src="https://github.com/user-attachments/assets/4e1532ef-3782-45c7-b3e8-464aa22d38e3" width="200"> |  
+| <img src="https://github.com/user-attachments/assets/f85416b8-309b-494a-b86f-ae04b5bdb5ce" width="180"> <img src="https://github.com/user-attachments/assets/532873c4-0d60-4b66-bcd9-7d8d6117ba70" width="180"> <img src="https://github.com/user-attachments/assets/1c790751-3c8d-4ee9-980b-5f2ad6b83793" width="180"> <img src="https://github.com/user-attachments/assets/4e1532ef-3782-45c7-b3e8-464aa22d38e3" width="180"> |  
 
 | Prompt: `abhi_token person with the Eiffel Tower in the background` |
 |---------|
-| <img src="https://github.com/user-attachments/assets/71f71093-24a2-4a8b-94e9-cb070dafb666" width="200"> <img src="https://github.com/user-attachments/assets/fdf38387-0a48-4266-a724-dd838e879200" width="200"> <img src="https://github.com/user-attachments/assets/3c0c08d2-f6ac-4089-9206-1440a0a8ca4e" width="200"> <img src="https://github.com/user-attachments/assets/ae681448-a061-41bf-ae9b-2b1011265361" width="200"> |  
+| <img src="https://github.com/user-attachments/assets/71f71093-24a2-4a8b-94e9-cb070dafb666" width="180"> <img src="https://github.com/user-attachments/assets/fdf38387-0a48-4266-a724-dd838e879200" width="180"> <img src="https://github.com/user-attachments/assets/3c0c08d2-f6ac-4089-9206-1440a0a8ca4e" width="180"> <img src="https://github.com/user-attachments/assets/ae681448-a061-41bf-ae9b-2b1011265361" width="180"> |  
 
 | Prompt: `abhishek token person walking on the beach` |
 |---------|
-| <img src="https://github.com/user-attachments/assets/6a06b0c8-3ec2-46e3-9e39-b84057249dac" width="200"> <img src="https://github.com/user-attachments/assets/96c32c2d-1075-4f87-8d7f-67bb282c216b" width="200"> <img src="https://github.com/user-attachments/assets/f743aff2-fa8f-487f-80be-0b3a498c2816" width="200"> <img src="https://github.com/user-attachments/assets/c674fd92-84c3-4daf-8ef2-729c8764c67f" width="200"> |  
+| <img src="https://github.com/user-attachments/assets/6a06b0c8-3ec2-46e3-9e39-b84057249dac" width="180"> <img src="https://github.com/user-attachments/assets/96c32c2d-1075-4f87-8d7f-67bb282c216b" width="180"> <img src="https://github.com/user-attachments/assets/f743aff2-fa8f-487f-80be-0b3a498c2816" width="180"> <img src="https://github.com/user-attachments/assets/c674fd92-84c3-4daf-8ef2-729c8764c67f" width="180"> |  
 
 # <a name="text-vs-dreamb"></a>  Textual Inversion vs. Dreambooth
 The majority of the code in this repo was written by Rinon Gal et. al, the authors of the Textual Inversion research paper. Though a few ideas about regularization images and prior loss preservation (ideas from "Dreambooth") were added in. It's important to give credit for textual inversion repo to both the MIT team and the Google researchers.
