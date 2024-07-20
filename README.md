@@ -21,7 +21,7 @@
   - [They look like you, but not when you try different styles](#they-look-like-you-but-not-when-you-try-different-styles)
 - [Hugging Face Diffusers](#hugging-face-diffusers)
 
-## <a name="introduction"></a> INTRODUCTION
+## <a name="introduction"></a> Introduction
 This repository presents an adaptation of Google's Dreambooth, utilizing Stable Diffusion. The original Dreambooth was built upon the Imagen text-to-image model. However, neither the model nor its pre-trained weights are accessible. To facilitate fine-tuning of a text-to-image model with limited examples, I've incorporated the concept of Dreambooth into Stable Diffusion.
 
 The foundation of this code repository is based on Textual Inversion. It's important to note that Textual Inversion solely optimizes word embedding, whereas Dreambooth fine-tunes the entire diffusion model.
@@ -29,6 +29,17 @@ The foundation of this code repository is based on Textual Inversion. It's impor
 ## **Implementation Details**
 As already mentioned that we are using the most architecture part of [Textual Inversion]() repository since Google has not made dreambooth code public. Note that Textual inversion paper only discusses about training the embedding vector and not the U-Net architecture which is used for generation. But since dreambooth implementation requires fine tuning the U-Net architecture hence I will be modifying the codebase at this [line](), which disable gradient checkpointing in a hard-code way. This is because in textual inversion, the Unet is not optimized. However, in Dreambooth we optimize the Unet, so we can turn on the gradient checkpoint pointing trick, as in the original [Stable Diffusion]() repo here. The gradient checkpoint is default to be True in config. I have updated the codes.
 
+- Onto the technical side:
+  - We can now run this on a GPU with **24GB of VRAM** (e.g. 3090). Training will be slower, and you'll need to be sure this is the *only* program running.
+  - I have trained it on my server provided by my college but I'm including a Jupyter notebook here to help you run it on a rented cloud computing platform if you don't own one. 
+  
+  
+- This implementation does not fully implement Google's ideas on how to preserve the latent space.
+
+  - Most images that are similar to what you're training will be shifted towards that.
+  - e.g. If you're training a person, all people will look like you. If you're training an object, anything in that class will look like your object.
+
+  
 ### **Preparation** 
 First set-up the ldm enviroment following the instruction from textual inversion repo, or the original Stable Diffusion repo.
 
@@ -43,21 +54,35 @@ python scripts/stable_txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 1 --scale
 I generated 1500 images for regularization. After generating regularization images, save them in `/root/to/regularization_images` folder.
 If the generated regularization images are highly unrealistic ("man" or "woman"), you can find a diverse set of images (of man/woman) online, and use them as regularization images. This can give a better result.
 
-- Onto the technical side:
-  - You can now run this on a GPU with **24GB of VRAM** (e.g. 3090). Training will be slower, and you'll need to be sure this is the *only* program running.
-  - If, like myself, you don't happen to own one of those, I'm including a Jupyter notebook here to help you run it on a rented cloud computing platform. 
-  - It's currently tailored to [runpod.io](https://runpod.io?ref=n8yfwyum) and [vast.ai](http://console.vast.ai/?ref=47390) 
-  - We do support a colab notebook as well: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JoePenna/Dreambooth-Stable-Diffusion/blob/main/dreambooth_google_colab_joepenna.ipynb)
-  
-- This implementation does not fully implement Google's ideas on how to preserve the latent space.
+### **Training** 
 
-  - Most images that are similar to what you're training will be shifted towards that.
-  - e.g. If you're training a person, all people will look like you. If you're training an object, anything in that class will look like your object.
+I have trained it in a conda environment using python 3.10 on my server. One can implement in any virtual environment system.
 
-- There doesn't seem to be an easy way to train two subjects consecutively. You will end up with an `11-12GB` file before pruning.
-  - The provided notebook has a pruner that crunches it down to `~2gb`
-  
-- Best practice is to change the **token** to a celebrity name (*note: token, not class* -- so your prompt would be something like: `Chris Evans person`). Here's [my wife trained with the exact same settings, except for the token](#using-the-generated-model)
+### Setup - Conda
+
+### Pre-Requisites
+Git
+Python 3.10
+miniconda3
+Open Anaconda Prompt (miniconda3)
+Clone the repository
+`(base) C:\>git clone https://github.com/JoePenna/Dreambooth-Stable-Diffusion`
+Navigate into the repository
+`(base) C:\>cd Dreambooth-Stable-Diffusion`
+Install Dependencies and Activate Environment
+```
+(base) C:\Dreambooth-Stable-Diffusion> conda env create -f environment.yaml
+(base) C:\Dreambooth-Stable-Diffusion> conda activate dreambooth_joepenna
+```
+
+### Run
+
+```
+cmd> python "main.py" --project_name "ProjectName" --training_model "C:\v1-5-pruned-emaonly-pruned.ckpt" --regularization_images "C:\regularization_images" --training_images "C:\training_images" --max_training_steps 2000 --class_word "person" --token "zwx" --flip_p 0 --learning_rate 1.0e-06 --save_every_x_steps 250
+```
+
+### Cleanup
+```cmd> conda deactivate```
 
 
 # <a name="setup"></a> Setup
