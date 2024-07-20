@@ -13,8 +13,6 @@
 - [Configuration File and Command Line Reference](#config-file-and-command-line-reference)
   - [For Training using Custom configuration](#custom-config) 
 - [Results using this Generation Model](#results)
-  - [Ground Truth Images]
-  - [Model Generated Images] 
 - [Textual Inversion vs. Dreambooth](#text-vs-dreamb)
 
 ## <a name="introduction"></a> Introduction
