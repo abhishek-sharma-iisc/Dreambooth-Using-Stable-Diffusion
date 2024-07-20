@@ -31,7 +31,7 @@ As already mentioned that we are using the most architecture part of [Textual In
 
 First set-up the ldm enviroment following the instruction from textual inversion repo, or the original Stable Diffusion repo.
 
-To fine-tune a stable diffusion model, we need to obtain the pre-trained stable diffusion models following their instructions. Weights can be downloaded from HuggingFace. You can decide which version of checkpoint to use, but I use 'sd_v1-5_vae.ckpt' present in [hugging_face](https://huggingface.co/panopstor/EveryDream/tree/main).
+To fine-tune a stable diffusion model, we need to obtain the pre-trained stable diffusion models following their instructions. Weights can be downloaded from HuggingFace. You can decide which version of checkpoint to use, but I use `sd_v1-5_vae.ckpt` present in [hugging_face](https://huggingface.co/panopstor/EveryDream/tree/main).
 
 We also need to create a set of images for regularization, as the fine-tuning algorithm of Dreambooth requires that. Details of the algorithm can be found in the paper. Note that in the original paper, the regularization images seem to be generated on-the-fly. However, here I generated a set of regularization images before the training. The text prompt for generating regularization images can be 'photo of a <class>', where '<class>' is a word that describes the class of your object, such as 'dog'. The command is
 
