@@ -21,25 +21,26 @@
   - [They look like you, but not when you try different styles](#they-look-like-you-but-not-when-you-try-different-styles)
 - [Hugging Face Diffusers](#hugging-face-diffusers)
 
-### **INTRODUCTION**
+## <a name="introduction"></a> INTRODUCTION
 This repository presents an adaptation of Google's Dreambooth, utilizing Stable Diffusion. The original Dreambooth was built upon the Imagen text-to-image model. However, neither the model nor its pre-trained weights are accessible. To facilitate fine-tuning of a text-to-image model with limited examples, I've incorporated the concept of Dreambooth into Stable Diffusion.
 
 The foundation of this code repository is based on Textual Inversion. It's important to note that Textual Inversion solely optimizes word embedding, whereas Dreambooth fine-tunes the entire diffusion model.
 
-### **Implementation Details**
+## **Implementation Details**
 As already mentioned that we are using the most architecture part of [Textual Inversion]() repository since Google has not made dreambooth code public. Note that Textual inversion paper only discusses about training the embedding vector and not the U-Net architecture which is used for generation. But since dreambooth implementation requires fine tuning the U-Net architecture hence I will be modifying the codebase at this [line](), which disable gradient checkpointing in a hard-code way. This is because in textual inversion, the Unet is not optimized. However, in Dreambooth we optimize the Unet, so we can turn on the gradient checkpoint pointing trick, as in the original [Stable Diffusion]() repo here. The gradient checkpoint is default to be True in config. I have updated the codes.
 
+### **Preparation** 
 First set-up the ldm enviroment following the instruction from textual inversion repo, or the original Stable Diffusion repo.
 
 To fine-tune a stable diffusion model, we need to obtain the pre-trained stable diffusion models following their instructions. Weights can be downloaded from HuggingFace. You can decide which version of checkpoint to use, but I use `sd_v1-5_vae.ckpt` present in [hugging_face](https://huggingface.co/panopstor/EveryDream/tree/main).
 
-We also need to create a set of images for regularization, as the fine-tuning algorithm of Dreambooth requires that. Details of the algorithm can be found in the paper. Note that in the original paper, the regularization images seem to be generated on-the-fly. However, here I generated a set of regularization images before the training. The text prompt for generating regularization images can be 'photo of a <class>', where '<class>' is a word that describes the class of your object, such as 'dog'. The command is
+We also need to create a set of images for regularization, as the fine-tuning algorithm of Dreambooth requires that. Details of the algorithm can be found in the paper. Note that in the original paper, the regularization images seem to be generated on-the-fly. However, here I generated a set of regularization images before the training. The text prompt for generating regularization images can be `photo of a <class>`, where `<class>` is a word that describes the class of your object, such as `dog`. The command is
 
 ```
 python scripts/stable_txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 1 --scale 10.0 --ddim_steps 50  --ckpt /path/to/original/stable-diffusion/sd-v1-4-full-ema.ckpt --prompt "a photo of a <class>" 
 ```
 
-I generated 1500 images for regularization. After generating regularization images, save them in '/root/to/regularization_images' folder.
+I generated 1500 images for regularization. After generating regularization images, save them in `/root/to/regularization_images` folder.
 If the generated regularization images are highly unrealistic ("man" or "woman"), you can find a diverse set of images (of man/woman) online, and use them as regularization images. This can give a better result.
 
 - Onto the technical side:
