@@ -40,7 +40,7 @@ As already mentioned that we are using the most architecture part of [Textual In
   - e.g. If you're training a person, all people will look like you. If you're training an object, anything in that class will look like your object.
 
   
-### <a></a> Preparation
+### <a name="preparation"></a> Preparation
 First set-up the ldm enviroment following the instruction from textual inversion repo, or the original Stable Diffusion repo.
 
 To fine-tune a stable diffusion model, we need to obtain the pre-trained stable diffusion models following their instructions. Weights can be downloaded from HuggingFace. You can decide which version of checkpoint to use, but I use `sd_v1-5_vae.ckpt` present in [hugging_face](https://huggingface.co/panopstor/EveryDream/tree/main).
@@ -54,21 +54,22 @@ python scripts/stable_txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 1 --scale
 I generated 1500 images for regularization. After generating regularization images, save them in `/root/to/regularization_images` folder.
 If the generated regularization images are highly unrealistic ("man" or "woman"), you can find a diverse set of images (of man/woman) online, and use them as regularization images. This can give a better result.
 
-### <a></a>Training 
+### <a name="training></a>Training 
 
-I have trained it in a conda environment using python 3.10 on my server. One can implement in any virtual environment system.
+I have trained it in a conda environment using python 3.10 on my server. One can implement in any virtual environment system. One can use any particular subject to train this model. In my case, I have used my own images for training purpose. To train using my images, I have taken 22 images of mine in which my face has frontal pose in most images. Some images also contain side poses for diversity and novel viewpoint training.
 
-### Setup - Conda
+### <a name="running-locally-conda"></a>  Setup - Conda
 
 ### Pre-Requisites
-Git
-Python 3.10
-miniconda3
-Open Anaconda Prompt (miniconda3)
-Clone the repository
-`(base) C:\>git clone https://github.com/JoePenna/Dreambooth-Stable-Diffusion`
-Navigate into the repository
-`(base) C:\>cd Dreambooth-Stable-Diffusion`
+1. [Git](https://gitforwindows.org/)
+2. [Python 3.10](https://www.python.org/downloads/)
+2. [miniconda3](https://docs.conda.io/en/latest/miniconda.html)
+3. Open `Anaconda Prompt (miniconda3)`
+4. Clone the repository
+   1. `(base) C:\>git clone https://github.com/abhisheksh1304/Dreambooth-Using-Stable-Diffusion.git`
+5. Navigate into the repository
+   1. `(base) C:\>cd Dreambooth-using-Stable-Diffusion`
+
 Install Dependencies and Activate Environment
 ```
 (base) C:\Dreambooth-Stable-Diffusion> conda env create -f environment.yaml
@@ -82,7 +83,114 @@ cmd> python "main.py" --project_name "ProjectName" --training_model "C:\v1-5-pru
 ```
 
 ### Cleanup
-```cmd> conda deactivate```
+```
+cmd> conda deactivate
+
+```
+
+# <a name="configure"></a> Configuration File and Command Line Reference
+
+## Example Configuration file
+
+```
+{
+    "class_word": "woman",
+    "config_date_time": "2023-04-08T16-54-00",
+    "debug": false,
+    "flip_percent": 0.0,
+    "gpu": 0,
+    "learning_rate": 1e-06,
+    "max_training_steps": 3500,
+    "model_path": "D:\\stable-diffusion\\models\\v1-5-pruned-emaonly-pruned.ckpt",
+    "model_repo_id": "",
+    "project_config_filename": "my-config.json",
+    "project_name": "<token> project",
+    "regularization_images_folder_path": "D:\\stable-diffusion\\regularization_images\\Stable-Diffusion-Regularization-Images-person_ddim\\person_ddim",
+    "save_every_x_steps": 250,
+    "schema": 1,
+    "seed": 23,
+    "token": "<token>",
+    "token_only": false,
+    "training_images": [
+        "001@a photo of <token> looking down.png",
+        "002-DUPLICATE@a close photo of <token> smiling wearing a black sweatshirt.png",
+        "002@a photo of <token> wearing a black sweatshirt sitting on a blue couch.png",
+        "003@a photo of <token> smiling wearing a red flannel shirt with a door in the background.png",
+        "004@a photo of <token> wearing a purple sweater dress standing with her arms crossed in front of a piano.png",
+        "005@a close photo of <token> with her hand on her chin.png",
+        "005@a photo of <token> with her hand on her chin wearing a dark green coat and a red turtleneck.png",
+        "006@a close photo of <token>.png",
+        "007@a close photo of <token>.png",
+        "008@a photo of <token> wearing a purple turtleneck and earings.png",
+        "009@a close photo of <token> wearing a red flannel shirt with her hand on her head.png",
+        "011@a close photo of <token> wearing a black shirt.png",
+        "012@a close photo of <token> smirking wearing a gray hooded sweatshirt.png",
+        "013@a photo of <token> standing in front of a desk.png",
+        "014@a close photo of <token> standing in a kitchen.png",
+        "015@a photo of <token> wearing a pink sweater with her hand on her forehead sitting on a couch with leaves in the background.png",
+        "016@a photo of <token> wearing a black shirt standing in front of a door.png",
+        "017@a photo of <token> smiling wearing a black v-neck sweater sitting on a couch in front of a lamp.png",
+        "019@a photo of <token> wearing a blue v-neck shirt in front of a door.png",
+        "020@a photo of <token> looking down with her hand on her face wearing a black sweater.png",
+        "021@a close photo of <token> pursing her lips wearing a pink hooded sweatshirt.png",
+        "022@a photo of <token> looking off into the distance wearing a striped shirt.png",
+        "023@a photo of <token> smiling wearing a blue beanie holding a wine glass with a kitchen table in the background.png",
+        "024@a close photo of <token> looking at the camera.png"
+    ],
+    "training_images_count": 24,
+    "training_images_folder_path": "D:\\stable-diffusion\\training_images\\24 Images - captioned"
+}
+```
+
+## For Training using Custom configuration
+
+## Command Line Parameters
+
+[dreambooth_helpers\arguments.py]()
+
+| Command | Type | Example | Description |
+| ------- | ---- | ------- | ----------- |
+| `--config_file_path` | string | `"C:\\Users\\David\\Dreambooth Configs\\my-config.json"` | The path the configuration file to use |
+| `--project_name` | string | `"My Project Name"` | Name of the project |
+| `--debug` | bool | `False` | *Optional* Defaults to `False`. Enable debug logging |
+| `--seed` | int | `23` | *Optional* Defaults to `23`. Seed for seed_everything |
+| `--max_training_steps` | int | `3000` | Number of training steps to run |
+| `--token` | string | `"owhx"` | Unique token you want to represent your trained model. |
+| `--token_only` | bool | `False` | *Optional* Defaults to `False`. Train only using the token and no class. |
+| `--training_model` | string | `"D:\\stable-diffusion\\models\\v1-5-pruned-emaonly-pruned.ckpt"` | Path to model to train (model.ckpt) |
+| `--training_images` | string | `"D:\\stable-diffusion\\training_images\\24 Images - captioned"` | Path to training images directory |
+| `--regularization_images` | string | `"D:\\stable-diffusion\\regularization_images\\Stable-Diffusion-Regularization-Images-person_ddim\\person_ddim"` | Path to directory with regularization images |
+| `--class_word` | string | `"woman"` | Match class_word to the category of images you want to train. Example: `man`, `woman`, `dog`, or `artstyle`. |
+| `--flip_p` | float | `0.0` | *Optional* Defaults to `0.5`. Flip Percentage. Example: if set to `0.5`, will flip (mirror) your training images 50% of the time. This helps expand your dataset without needing to include more training images. This can lead to worse results for face training since most people's faces are not perfectly symmetrical. |
+| `--learning_rate` | float | `1.0e-06` | *Optional* Defaults to `1.0e-06` (0.000001). Set the learning rate. Accepts scientific notation. |
+| `--save_every_x_steps` | int | `250` | *Optional* Defaults to `0`. Saves a checkpoint every x steps.   At `0` only saves at the end of training when `max_training_steps` is reached. |
+| `--gpu` | int | `0` | *Optional* Defaults to `0`. Specify a GPU other than 0 to use for training.  Multi-GPU support is not currently implemented.
+
+## Using your configuration for training
+
+```
+python "main.py" --project_name "My Project Name" --max_training_steps 3000 --token "owhx" --training_model "D:\\stable-diffusion\\models\\v1-5-pruned-emaonly-pruned.ckpt" --training_images "D:\\stable-diffusion\\training_images\\24 Images - captioned" --regularization_images "D:\\stable-diffusion\\regularization_images\\Stable-Diffusion-Regularization-Images-person_ddim\\person_ddim" --class_word "woman" --flip_p 0.0 --save_every_x_steps 500
+```
+
+# <a name="results">Results Using this Generation Model </a>
+
+The `ground truth` (real picture)
+<br><img src="https://github.com/user-attachments/assets/21583f8d-056e-4a7e-b8b4-3546fedc19c6" width="200">
+
+Same prompt for all of these images below:
+
+| `sks person` | `woman person` | `Natalie Portman person` | `Kate Mara person` |
+| ----- | ------- | ----------------- | ----------- |
+| <img src="https://user-images.githubusercontent.com/100188076/192403506-ab96c652-f7d0-47b0-98fa-267defa1e511.png" width="200"> | <img src="https://user-images.githubusercontent.com/100188076/192403491-cb258777-5091-4492-a6cc-82305fa729f4.png" width="200"> | <img src="https://user-images.githubusercontent.com/100188076/192403437-f9a93720-d41c-4334-8901-fa2d2a10fe36.png" width="200"> | <img src="https://user-images.githubusercontent.com/100188076/192403461-1f6972d9-64d0-46b0-b2ed-737e47aae31e.png" width="200"> |
+
+
+# <a name="text-vs-dreamb"></a>  Textual Inversion vs. Dreambooth
+The majority of the code in this repo was written by Rinon Gal et. al, the authors of the Textual Inversion research paper. Though a few ideas about regularization images and prior loss preservation (ideas from "Dreambooth") were added in. respect to both the MIT team and the Google researchers, I'm renaming this fork to:
+*"Dreambooth Using Stable Diffusion""*.
+
+
+
+
 
 
 # <a name="setup"></a> Setup
@@ -161,7 +269,7 @@ cmd> pip install -r requirements.txt
 `cmd> python "main.py" --project_name "ProjectName" --training_model "C:\v1-5-pruned-emaonly-pruned.ckpt" --regularization_images "C:\regularization_images" --training_images "C:\training_images" --max_training_steps 2000 --class_word "person" --token "zwx" --flip_p 0 --learning_rate 1.0e-06 --save_every_x_steps 250`
 
 #### Cleanup
-```cmd
+```
 cmd> deactivate 
 ```
 
