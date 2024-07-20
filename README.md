@@ -52,6 +52,23 @@ If the generated regularization images are highly unrealistic ("man" or "woman")
 
 I have trained it in a conda environment using python 3.10 on my server. One can implement in any virtual environment system. One can use any particular subject to train this model. In my case, I have used my own images for training purpose. To train using my images, I have taken 22 images of mine in which my face has frontal pose in most images. Some images also contain side poses for diversity and novel viewpoint training.
 
+### <a name="generation"></a>Generation 
+
+After training, personalized samples can be obtained by running the command
+
+```
+python scripts/stable_txt2img.py --ddim_eta 0.0 
+                                 --n_samples 8 
+                                 --n_iter 1 
+                                 --scale 10.0 
+                                 --ddim_steps 100  
+                                 --ckpt /path/to/saved/checkpoint/from/training
+                                 --prompt "photo of a sks <class>" 
+```
+
+In particular, `abhishek` is the identifier, which should be replaced by your choice if you happen to change the identifier, and `<class>` is the class word --class_word for training.
+During Generation, all subject token is reffered as `[subject_identifier][subject_class]` as mentioned in Dreambooth paper. In the main paper, they suggest to use 3-4 letter token for subject identifier but I used 8 letter token whihch worked quite well. In this case, I have used `abhishek person` as token where `abhishek` is subject identifier and `person` is subject class.
+
 ### <a name="running-locally-conda"></a>  Setup - Conda
 
 ### Pre-Requisites
