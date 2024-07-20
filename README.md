@@ -178,7 +178,7 @@ The `ground truth` (real pictures used for training)
 <img src="https://github.com/user-attachments/assets/1ad63a09-c41a-4136-8531-01460866880b" width="180">
 
 
-## Model Generated Image
+## Model Generated Images
 
 | Prompt: `abhishek person as a masterpiece portrait painting by John Singer Sargent in the style of Rembrandt` |
 |---------|
@@ -188,7 +188,7 @@ The `ground truth` (real pictures used for training)
 |---------|
 | <img src="https://github.com/user-attachments/assets/f85416b8-309b-494a-b86f-ae04b5bdb5ce" width="180"> <img src="https://github.com/user-attachments/assets/532873c4-0d60-4b66-bcd9-7d8d6117ba70" width="180"> <img src="https://github.com/user-attachments/assets/1c790751-3c8d-4ee9-980b-5f2ad6b83793" width="180"> <img src="https://github.com/user-attachments/assets/4e1532ef-3782-45c7-b3e8-464aa22d38e3" width="180"> |  
 
-| Prompt: `abhi_token person with the Eiffel Tower in the background` |
+| Prompt: `abhishek person with the Eiffel Tower in the background` |
 |---------|
 | <img src="https://github.com/user-attachments/assets/71f71093-24a2-4a8b-94e9-cb070dafb666" width="180"> <img src="https://github.com/user-attachments/assets/fdf38387-0a48-4266-a724-dd838e879200" width="180"> <img src="https://github.com/user-attachments/assets/3c0c08d2-f6ac-4089-9206-1440a0a8ca4e" width="180"> <img src="https://github.com/user-attachments/assets/ae681448-a061-41bf-ae9b-2b1011265361" width="180"> |  
 
