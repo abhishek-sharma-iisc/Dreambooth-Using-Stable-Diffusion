@@ -40,7 +40,7 @@ As already mentioned that we are using the most architecture part of [Textual In
   - e.g. If you're training a person, all people will look like you. If you're training an object, anything in that class will look like your object.
 
   
-### **Preparation** 
+### <a></a> Preparation
 First set-up the ldm enviroment following the instruction from textual inversion repo, or the original Stable Diffusion repo.
 
 To fine-tune a stable diffusion model, we need to obtain the pre-trained stable diffusion models following their instructions. Weights can be downloaded from HuggingFace. You can decide which version of checkpoint to use, but I use `sd_v1-5_vae.ckpt` present in [hugging_face](https://huggingface.co/panopstor/EveryDream/tree/main).
@@ -54,7 +54,7 @@ python scripts/stable_txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 1 --scale
 I generated 1500 images for regularization. After generating regularization images, save them in `/root/to/regularization_images` folder.
 If the generated regularization images are highly unrealistic ("man" or "woman"), you can find a diverse set of images (of man/woman) online, and use them as regularization images. This can give a better result.
 
-### **Training** 
+### <a></a>Training 
 
 I have trained it in a conda environment using python 3.10 on my server. One can implement in any virtual environment system.
 
