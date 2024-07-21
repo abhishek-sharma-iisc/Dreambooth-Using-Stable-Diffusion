@@ -12,7 +12,7 @@ from torch.utils.data import random_split, DataLoader
 import dreambooth_helpers.dreambooth_trainer_configurations as db_cfg
 from dreambooth_helpers.arguments import parse_arguments
 from dreambooth_helpers.dataset_helpers import WrappedDataset, ConcatDataset
-from dreambooth_helpers.joepenna_dreambooth_config import JoePennaDreamboothConfigSchemaV1
+from dreambooth_helpers.abhishek_dreambooth_config import abhishekDreamboothConfigSchemaV1
 from dreambooth_helpers.copy_and_name_checkpoints import copy_and_name_checkpoints
 from ldm.data.base import Txt2ImgIterableBaseDataset
 from ldm.util import instantiate_from_config, load_model_from_config
@@ -135,7 +135,7 @@ class DataModuleFromConfig(pl.LightningDataModule):
 
 if __name__ == "__main__":
     # Generate the config from the input arguments
-    dreambooth_config: JoePennaDreamboothConfigSchemaV1 = parse_arguments()
+    dreambooth_config: abhishekDreamboothConfigSchemaV1 = parse_arguments()
 
     # add cwd for convenience and to make classes in this file available when
     # running as `python main.py`
