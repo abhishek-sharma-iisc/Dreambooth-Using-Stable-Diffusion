@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: dreambooth-stable-diffusion
+Version: 1.0.0
+License-File: LICENSE
+Requires-Dist: torch
+Requires-Dist: numpy
+Requires-Dist: tqdm
