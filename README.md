@@ -4,6 +4,13 @@
 
 <p align="center"><b>Abstract</b></p>
 Large text-to-image models achieved a remarkable leap in the evolution of AI, enabling high-quality and diverse synthesis of images from a given text prompt. However, these models lack the ability to mimic the appearance of subjects in a given reference set and synthesize novel renditions of them in different contexts. In this work, we present a new approach for “personalization” of text-to-image diffusion models. Given as input just a few images of a subject, we finetune a pretrained text-to-image model such that it learns to bind a unique identifier with that specific subject. Once the subject is embedded in the output domain of the model, the unique identifier can be used to synthesize novel photorealistic images of the subject contextualized in different scenes. By leveraging the semantic prior embedded in the model with a new autogenous class-specific prior preservation loss, our technique enables synthesizing the subject in diverse scenes, poses, views and lighting conditions that do not appear in the reference images. We apply our technique to several previously-unassailable tasks, including subject recontextualization, text-guided view synthesis, and artistic rendering, all while preserving the subject’s key features. We also provide a new dataset and evaluation protocol for this new task of subject-driven generation.
+</br>
+</br>
+
+Complete Paper can be accessed here: [DreamBooth: Fine Tuning Text-to-Image Diffusion Models
+for Subject-Driven Generation](https://arxiv.org/pdf/2208.12242)
+
+**NOTE:** Since, Google has not made Dreambooth code and U-Net model public, I have used the stable-diffusionv1.5 to fine tune subject specific images and code for training is taken from [Textual-Inversion](https://github.com/rinongal/textual_inversion) repository. I have made some changes in code in order to align it for our purpose since textual inversion base code doesn't finetune the U-Net model which is a requirement in dreambooth implementation.
 
 # Index
 
